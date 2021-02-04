@@ -1,0 +1,4 @@
+opusscript
+ffmpeg
+ytdl-core
+discord.js
