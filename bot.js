@@ -7,7 +7,6 @@
 const Discord = require("discord.js");
 
 const TOKEN = "nope"
-//adding this line for testing purposes
 const YTDL = require("ytdl-core");
 
 const PREFIX = "oi ";
@@ -107,6 +106,15 @@ var hp = [
 bot.on("ready",function() { //initialize program to execute
 	console.log("Good to go.");
 });
+
+bot.on('ready', () => {
+    bot.user.setStatus('available')
+    bot.user.setPresence({
+        game: {
+            name: 'with myself | oi help',
+        }
+    });
+})
 
 bot.on("guildMemberAdd", function(member) { //assign a role to new people joining the discord server DOES NOT WORK WHY?!?!
     //TODO fix this its broken idk what's wrong please help
