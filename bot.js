@@ -7,6 +7,7 @@
 const Discord = require("discord.js");
 
 const TOKEN = "nope"
+//adding this line for testing purposes
 const YTDL = require("ytdl-core");
 
 const PREFIX = "oi ";
@@ -39,7 +40,7 @@ fs.readFile('Input.txt', (err, data) => {
  }
 
  function play(connection, message) { //play music through the bot from youtube in the discord channel
-
+    try {
     var server = servers[message.guild.id];
     server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
 
@@ -49,6 +50,12 @@ fs.readFile('Input.txt', (err, data) => {
         if (server.queue[0]) play(connection, message);
         else connection.disconnect();
     });
+    } catch (TypeError) { //caught this error, but for some reason the command is placed in some kind of cache and the sound effect will be played twice the next
+           	                      //time the bot is called to play a sound effect
+           	    console.log("Oops. I dun goof'd.")
+           	    message.channel.send("Sorry. Something went wrong. Try again.")
+           	    return
+           	}
  }
 //end functions
 //begin variables
@@ -125,7 +132,7 @@ bot.on("guildMemberAdd", function(member) { //assign a role to new people joinin
 });
 
 bot.on("message", function(message) { // this is the function that makes the bot not respond to anything, only if the message starts with the PREFIX "oi"
-	
+
 	if (!message.content.startsWith(PREFIX)) return;
 	if (message.author.bot) return;
 
@@ -134,10 +141,11 @@ bot.on("message", function(message) { // this is the function that makes the bot
 
     function ran(pp) { //generate random number
 
- 	    if (args[0]) message.channel.send(pp[Math.floor(Math.random() * pp.length)]);
+ 	    if (args[0]) message.channel.send(pp[Math.floor(Math.random() * pp.length)] + "! " + message.author);
 
     } //this function gotta be here cause args
     function sound (p) { //functionality to play various hard-coded sound clips
+    try {
      	if (!message.member.voiceChannel) {
      				message.channel.send("How do you expect to hear the audio if you're not in a channel?");
      				return;
@@ -147,9 +155,16 @@ bot.on("message", function(message) { // this is the function that makes the bot
      			};
      			var server = servers[message.guild.id];
      			server.queue.push(p);
+
      			if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
      				play(connection, message);
      			});
+     	} catch (TypeError) { //caught this error, but for some reason the command is placed in some kind of cache and the sound effect will be played twice the next
+     	                      //time the bot is called to play a sound effect
+     	    console.log("Oops. I dun goof'd.")
+     	    message.channel.send("Sorry. Something went wrong. Try again.")
+     	    return
+     	}
      } //this one too but cause message not defined
 
 	switch(args[0].toLowerCase()) {
@@ -159,7 +174,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
 		case "ping": // returns message in text channel
 			message.channel.send("Pong! What did you expect, me to tell you what your ping is? Figure it out you lazy sod.");
 			break;
-		
+
 		case "oi": // returns message in text channel
 			message.channel.send("Stop spamming! If you want my list of commands, try oi help, silly." + message.author);
 			break;
@@ -219,7 +234,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
 
 			.addField("People", "Amber, Cody, Kagan, Liam, Sean, William, Myric, Razz", true)
 			.addField("Games","8ball, harrypotter, hesangry, coin, roll, repeat, hat", true)
-			.addField("Music","play (has to be a YouTube URL), skip, heel")
+			.addField("Music","play (has to be a YouTube URL), skip, heel, goaway")
 			.addField("Other", "ping, noticeme, oi")
 			.addField("Audio clips", "ethan, cotton, thot, jelly, yeet, doug, doug2, stopitron")
 			.addField("Dota", "randomhero, intelligence, strength, agility")
@@ -261,7 +276,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
 					ran(coin);
 					message.channel.send("https://tenor.com/view/money-rich-coins-swag-count-gif-5633136");
 				}, 1000);
-			
+
 			break;
 
 		case "roll": // Quite proud of this one. "oi roll" will roll between 0-100. oi roll 290 will roll a number between 0 and 290. oi roll 280 2190 will roll a number between
@@ -318,7 +333,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
 
                         				}, 1000);
 			}
-			
+
 			break;
 
         case "hat": // pulls a name out of a hat from given names
@@ -413,6 +428,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
         //end play case
         //begin play sound effects
 		case "ethan": // plays sound effect from youtube
+
 		    sound("https://youtu.be/EDDKlXy5dxk");
 
 			break;
