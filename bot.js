@@ -41,6 +41,16 @@ fs.readFile('Input.txt', (err, data) => {
 
  function play(connection, message) { //play music through the bot from youtube in the discord channel
     try {
+    var content = message.content;
+    var parts = content.split("oi play ");
+
+        /*if(!parts[1].startsWith("https://www.youtube.com/")) {
+            message.channel.send("You need to provide a YouTube URL.")
+            if (message.guild.voiceConnection) {
+            				    message.guild.voiceConnection.disconnect();
+            }
+            return
+        }*/
     var server = servers[message.guild.id];
     server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
 
