@@ -21,6 +21,7 @@ fs.readFile('Input.txt', (err, data) => {
         if (err) throw err;
 
         console.log(data.toString());
+
     })
 }
 
@@ -133,11 +134,11 @@ bot.on('ready', () => {
     });
 })
 
-bot.on("guildMemberAdd", function(member) { //assign a role to new people joining the discord server DOES NOT WORK WHY?!?!
-    //TODO fix this its broken idk what's wrong please help
+bot.on("guildMemberAdd", function(member) {
+
 	member.guild.channels.find("name", "general").send(member.toString() + " Welcome to the server. All your base are belong to us.");
 
-	member.add(member.guild.roles.find("name", "Honorable Member"));
+	member.addRole(member.guild.roles.find("name", "Honorable Member").id);
 
 });
 
