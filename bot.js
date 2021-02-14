@@ -17,10 +17,11 @@ const fs = require('fs')
 
 //begin functions
 function readRole() { //reads a file called input
-fs.readFile('Input.txt', (err, data) => {
-        if (err) throw err;
+fs.readFile('Input.txt', 'utf8',function(err, data) {
 
-        console.log(data.toString());
+        if (err) throw err;
+        console.log(data)
+        return data
 
     })
 }
@@ -119,6 +120,21 @@ var hp = [
 	"Not my daughter, you bitch!",
 	"I've always wanted to use that spell."
 ];
+
+var embed = new Discord.RichEmbed()
+
+  			.addField("People", "Amber, Cody, Kagan, Liam, Sean, William, Myric, Razz", true)
+  			.addField("Games","8ball, harrypotter, hesangry, coin, roll, repeat, hat", true)
+  			.addField("Music","play (has to be a YouTube URL), skip, heel, goaway")
+  			.addField("Other", "ping, noticeme, oi")
+  			.addField("Audio clips", "ethan, cotton, thot, jelly, yeet, doug, doug2, stopitron, grace")
+  			.addField("Dota", "randomhero, intelligence, strength, agility")
+  			.addField("Apex", "legend")
+  			.setColor(0x1d6d28)
+  			.setTitle("Command list")
+  			.setDescription("The prefix for this bot is oi.")
+  			.setFooter("never EVER wot the bot.")
+
 //end variables
 //begin bot.on
 bot.on("ready",function() { //initialize program to execute
@@ -241,20 +257,8 @@ bot.on("message", function(message) { // this is the function that makes the bot
 		//end simple text return
 		//begin help
 		case "help": // embeds a message in text channel with command list
-			var embed = new Discord.RichEmbed()
 
-			.addField("People", "Amber, Cody, Kagan, Liam, Sean, William, Myric, Razz", true)
-			.addField("Games","8ball, harrypotter, hesangry, coin, roll, repeat, hat", true)
-			.addField("Music","play (has to be a YouTube URL), skip, heel, goaway")
-			.addField("Other", "ping, noticeme, oi")
-			.addField("Audio clips", "ethan, cotton, thot, jelly, yeet, doug, doug2, stopitron")
-			.addField("Dota", "randomhero, intelligence, strength, agility")
-			.addField("Apex", "legend")
-			.setColor(0x1d6d28)
-			.setTitle("Command list")
-			.setDescription("The prefix for this bot is oi.")
-			.setFooter("never EVER wot the bot.")
-		     message.channel.send(embed);
+            message.channel.send(embed)
 
 			break;
         //end help
@@ -440,7 +444,14 @@ bot.on("message", function(message) { // this is the function that makes the bot
         //begin play sound effects
 		case "ethan": // plays sound effect from youtube
 
-		    sound("https://youtu.be/EDDKlXy5dxk");
+            if (message.author.id === "267949455171518465") {
+                message.channel.send("Not for you Ethan. No no no.")
+                return;
+            }
+            else {
+                sound("https://youtu.be/EDDKlXy5dxk");
+            }
+
 
 			break;
 
@@ -486,6 +497,10 @@ bot.on("message", function(message) { // this is the function that makes the bot
                                         if (message.guild.voiceConnection)
                                             message.guild.voiceConnection.disconnect();
                                             }, 9000);
+        break
+
+        case "grace":
+            sound("https://www.youtube.com/watch?v=2_QniGKv4fg")
         break
 
         case "stopitron": // plays a sound effect from youtube
@@ -564,6 +579,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
 
 		default:
 			message.channel.send("Dude, that's not a command. Try again, silly.");
+            message.channel.send(embed)
 		break;
 	}
 });
