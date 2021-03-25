@@ -1,8 +1,10 @@
 /* * Sean's bot (V 1.0.0)
    * This is my bot for Discord.
-   * Author: Sean Trainor 
+   * Author: Sean Trainor
+   * write description here
    * Date started: 03 May 2018
 */
+
 //begin constants
 const Discord = require("discord.js");
 
@@ -31,9 +33,6 @@ fs.readFile('Input.txt', 'utf8',function(err, data) {
  	Math.floor(Math.random() * pp.length)
  }
 
- //function randomIntFromInterval(min, max) {  //this function didn't do what i want it to but im scared to remove it
-   //return Math.floor(Math.random() * (max - min + 1) + min);
- //}
 
  function getRandomIntInclusive(min, max) {
    min = Math.ceil(min);
@@ -62,6 +61,12 @@ fs.readFile('Input.txt', 'utf8',function(err, data) {
         if (server.queue[0]) play(connection, message);
         else connection.disconnect();
     });
+
+
+    if(message.channel.id == "255340956327477248") {
+        message.delete()
+    }
+
     } catch (TypeError) { //caught this error, but for some reason the command is placed in some kind of cache and the sound effect will be played twice the next
            	                      //time the bot is called to play a sound effect
            	    console.log("Oops. I dun goof'd.")
@@ -127,7 +132,7 @@ var embed = new Discord.RichEmbed()
   			.addField("Games","8ball, harrypotter, hesangry, coin, roll, repeat, hat", true)
   			.addField("Music","play (has to be a YouTube URL), skip, heel, goaway")
   			.addField("Other", "ping, noticeme, oi")
-  			.addField("Audio clips", "ethan, cotton, thot, jelly, yeet, doug, doug2, stopitron, grace")
+  			.addField("Audio clips", "bully, ethan, cotton, thot, jelly, yeet, doug, doug2, stopitron, grace, dino, carl, shanty")
   			.addField("Dota", "randomhero, intelligence, strength, agility")
   			.addField("Apex", "legend")
   			.setColor(0x1d6d28)
@@ -409,12 +414,24 @@ bot.on("message", function(message) { // this is the function that makes the bot
 		    }
 
 		    break;
+
+
+		case "stop": // makes the bot leave the current voice chat
+			var server = servers[message.guild.id];
+
+			if (message.guild.voiceConnection) {
+				    message.guild.voiceConnection.disconnect();
+		    }
+
+            if(message.channel.id == "255340956327477248") {
+                    message.delete()
+            }
+		    break;
         //end join/leave
         //begin play case
 		case "play": //another one I'm proud of. Bot will play music in the voice channel from a provided youtube link. Little bit broken
-            //TODO Fix the audio speeding up. Haven't the foggiest idea how.
 			if(!args[1]) {
-				message.channel.send("Please provide a link.");
+				message.channel.send("Please provide a YouTube link.");
 				return;
 			}
 			if (!message.member.voiceChannel) {
@@ -491,7 +508,7 @@ bot.on("message", function(message) { // this is the function that makes the bot
         break
 
         case "bully":  //plays a sound effect from youtube
-                    sound("https://www.youtube.com/watch?v=_AFbtgHJriw")
+                    sound("https://www.youtube.com/watch?v=a8hlu2XuWYI")
                     setTimeout(function(){
                                       var server = servers[message.guild.id]; //this function limits the duration of the video played
                                         if (message.guild.voiceConnection)
@@ -501,6 +518,12 @@ bot.on("message", function(message) { // this is the function that makes the bot
 
         case "grace":
             sound("https://www.youtube.com/watch?v=2_QniGKv4fg")
+
+            setTimeout(function(){ //this function limits the duration of the video played
+                              var server = servers[message.guild.id];
+                                if (message.guild.voiceConnection)
+                                    message.guild.voiceConnection.disconnect();
+                                    }, 18750);
         break
 
         case "stopitron": // plays a sound effect from youtube
@@ -514,6 +537,30 @@ bot.on("message", function(message) { // this is the function that makes the bot
                         }, 33500);
 
         break
+
+        case "dino":
+
+        sound("https://www.youtube.com/watch?v=-w-58hQ9dLk")
+        break
+
+        case "carl":
+
+        sound ("https://www.youtube.com/watch?v=oQ2zl3tRLpo")
+
+        break
+
+        case "shanty":
+
+        sound ("https://www.youtube.com/watch?v=SaEXyQg7pCc")
+
+        break
+
+        case "snake":
+
+        sound("https://youtu.be/ozGJd1R9Da0")
+
+        break
+
         //end play sound effects
         //begin random video game stuff
         case "randomhero": // Returns a random dota 2 hero
